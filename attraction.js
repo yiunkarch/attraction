@@ -16,6 +16,9 @@ window.onload = function() {
 		things.push(new thing(event.x,event.y));
 	});
 
+	document.getElementById("clear").addEventListener("click",function() {
+		things = [];
+	});
 	size = document.getElementById("size-slider");
 }
 
