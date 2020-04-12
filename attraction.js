@@ -2,7 +2,7 @@ var canvas;
 var ctx;
 var things = [];
 
-var mass;
+var size;
 
 window.onload = function() {
 	canvas = document.getElementById("canvas");
@@ -16,7 +16,7 @@ window.onload = function() {
 		things.push(new thing(event.x,event.y));
 	});
 
-	mass = document.getElementById("mass-slider");
+	size = document.getElementById("size-slider");
 }
 
 function resize() {
@@ -36,7 +36,7 @@ function draw() {
 			let thingo = things[o];
 			let dx = thingi.x - thingo.x;
 			let dy = thingi.y - thingo.y;
-			let scale = Math.pow(thingi.m * thingo.m, 2) / (Math.pow(dx,2) + Math.pow(dy,2)); // scale = (root(ma2*mb2)) / (root(d2^2))
+			let scale = thingi.m * thingo.m / (Math.pow(dx,2) + Math.pow(dy,2)); // scale = (root(ma2*mb2)) / (root(d2^2))
 			if (scale > 0.5) {
 				scale = 0.5;
 			}
@@ -55,7 +55,7 @@ function draw() {
 		}
 		// draw
 		ctx.beginPath();
-		ctx.arc(thingi.x,thingi.y,thingi.m*8,0,Math.PI*2);
+		ctx.arc(thingi.x,thingi.y,thingi.r*8,0,Math.PI*2);
 		ctx.closePath();
 		ctx.fill();
 	}
@@ -67,5 +67,6 @@ function thing(x,y) {
 	this.y = y;
 	this.vx = 0;
 	this.vy = 0;
-	this.m = mass.value;
+	this.r = size.value;
+	this.m = Math.pow(this.r,2) * 0.5;
 }
