@@ -37,6 +37,9 @@ function draw() {
 			let dx = thingi.x - thingo.x;
 			let dy = thingi.y - thingo.y;
 			let scale = Math.pow(thingi.m * thingo.m, 2) / (Math.pow(dx,2) + Math.pow(dy,2)); // scale = (root(ma2*mb2)) / (root(d2^2))
+			if (scale > 0.5) {
+				scale = 0.5;
+			}
 			dx *= scale;
 			dy *= scale;
 			thingi.vx += -dx;
