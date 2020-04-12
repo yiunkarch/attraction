@@ -2,6 +2,8 @@ var canvas;
 var ctx;
 var things = [];
 
+var mass;
+
 window.onload = function() {
 	canvas = document.getElementById("canvas");
 	if (canvas.getContext) {
@@ -13,6 +15,8 @@ window.onload = function() {
 	canvas.addEventListener("click", function (event) {
 		things.push(new thing(event.x,event.y));
 	});
+
+	mass = document.getElementById("mass-slider");
 }
 
 function resize() {
@@ -48,7 +52,7 @@ function draw() {
 		}
 		// draw
 		ctx.beginPath();
-		ctx.arc(thingi.x,thingi.y,thingi.m*16,0,Math.PI*2);
+		ctx.arc(thingi.x,thingi.y,thingi.m*8,0,Math.PI*2);
 		ctx.closePath();
 		ctx.fill();
 	}
@@ -60,5 +64,5 @@ function thing(x,y) {
 	this.y = y;
 	this.vx = 0;
 	this.vy = 0;
-	this.m = Math.random()*4;
+	this.m = mass.value;
 }
