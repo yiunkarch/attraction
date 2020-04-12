@@ -27,7 +27,20 @@ function draw() {
 	ctx.fillStyle = "blue";
 	for (let i = things.length-1; i >= 0; i--) {
 		let thingi = things[i];
-		// velocity
+		// calculate velocity
+		for (let o = i-1; o >= 0; o--) {
+			let thingo = things[o];
+			let dx = thingi.x - thingo.x;
+			let dy = thingi.y - thingo.y;
+			let scale = 64 / (Math.pow(dx,2) + Math.pow(dy,2)); // scale = (root(ma2*mb2)) / (root(d2^2))
+			dx *= scale;
+			dy *= scale;
+			thingi.vx += -dx;
+			thingi.vy += -dy;
+			thingo.vx += dx;
+			thingo.vy += dy;
+		}
+		// apply velocity
 		thingi.x += thingi.vx;
 		thingi.y += thingi.vy;
 		if (thingi.x < 0 || thingi.x > canvas.width || thingi.y < 0 || thingi.y > canvas.height) {
@@ -45,6 +58,6 @@ function draw() {
 function thing(x,y) {
 	this.x = x;
 	this.y = y;
-	this.vx = Math.random() * 16 - 8;
-	this.vy = Math.random() * 16 - 8;
+	this.vx = 0;
+	this.vy = 0;
 }
