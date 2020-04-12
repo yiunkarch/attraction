@@ -29,9 +29,10 @@ function resize() {
 
 function draw() {
 	// clear
-	ctx.fillStyle = "rgb(0,0,0,0.2)";
+	ctx.fillStyle = "rgb(0,0,0,0.4)";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
-	ctx.fillStyle = "blue";
+	ctx.strokeStyle = "blue";
+	ctx.lineCap = "round"
 	for (let i = things.length-1; i >= 0; i--) {
 		let thingi = things[i];
 		// calculate velocity
@@ -51,16 +52,19 @@ function draw() {
 			thingo.vy += dy;
 		}
 		// apply velocity (vx is actually "force on x axis")
+		let oldx = thingi.x;
+		let oldy = thingi.y;
 		thingi.x += thingi.vx / thingi.m;
 		thingi.y += thingi.vy / thingi.m;
 		if (thingi.x < 0 || thingi.x > canvas.width || thingi.y < 0 || thingi.y > canvas.height) {
 			things.splice(i,1);
 		}
-		// draw
+		// draw (while applying velocity)
+		ctx.lineWidth = thingi.r;
 		ctx.beginPath();
-		ctx.arc(thingi.x,thingi.y,thingi.r*8,0,Math.PI*2);
-		ctx.closePath();
-		ctx.fill();
+		ctx.moveTo(oldx,oldy);
+		ctx.lineTo(thingi.x,thingi.y);
+		ctx.stroke();
 	}
 	window.requestAnimationFrame(draw);
 }
@@ -72,4 +76,5 @@ function thing(x,y) {
 	this.vy = 0;
 	this.r = size.value;
 	this.m = Math.pow(this.r,2) * 0.5;
+	this.r *= 16;
 }
